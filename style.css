@@ -8,25 +8,8 @@
 
 body {
   min-height: 100vh;
-
-  background:
-    radial-gradient(
-      circle at 20% 20%,
-      rgba(232, 183, 160, 0.28),
-      transparent 35%
-    ),
-    radial-gradient(
-      circle at 85% 25%,
-      rgba(205, 185, 215, 0.22),
-      transparent 40%
-    ),
-    radial-gradient(
-      circle at 70% 85%,
-      rgba(225, 196, 160, 0.25),
-      transparent 45%
-    ),
-    #efe4d6;
-
+  background: #CFECF3;
+    ;
   color: #222;
   font-family: 'DM Sans', sans-serif;
   display: flex;
@@ -35,30 +18,73 @@ body {
   padding: 0 1rem 3rem;
 }
 
-/* ── Glowing background orb effects in pastels ── */
-body::before,
-body::after {
-  content: "";
+
+/* ── Film grain overlay ── */
+#film-grain {
   position: fixed;
-  width: 500px;
-  height: 500px;
-  border-radius: 50%;
-  filter: blur(100px);
-  z-index: -1;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+  opacity: .06;
+  background-image: repeating-radial-gradient(circle at 50% 50%, rgba(0,0,0,.2) 0, transparent 1px);
+  animation: grain 18s linear infinite;
 }
 
-body::before {
-  background: rgba(215, 145, 120, 0.35);
-  top: -150px;
-  left: -100px;
+@keyframes grain {
+  0%   { transform: translate(0, 0); }
+  25%  { transform: translate(-0.5%, 0.5%); }
+  50%  { transform: translate(0.5%, -0.5%); }
+  75%  { transform: translate(-0.5%, 0.5%); }
+  100% { transform: translate(0, 0); }
 }
 
-body::after {
-  background: rgba(180, 160, 220, 0.25);
-  bottom: -150px;
-  right: -100px;
+/* ── Projector flash ── */
+#projector-flash {
+  pointer-events: none;  /* add this line */
+
+  position: fixed;
+  inset: 0;
+  z-index: 9998;
+  pointer-events: none;
+  background: radial-gradient(circle, rgba(255,255,255,.75), transparent 65%);
+  animation: projectorFlash 1.5s ease forwards;
 }
 
+@keyframes projectorFlash {
+  0%   { opacity: 0; }
+  15%  { opacity: 1; }
+  40%  { opacity: .35; }
+  100% { opacity: 0; }
+}
+
+/* ── Intro overlay ── */
+#intro-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background:
+    radial-gradient(circle at 20% 40%, rgba(232,183,160,.5), transparent 40%),
+    radial-gradient(circle at 80% 50%, rgba(205,185,215,.4), transparent 40%),
+    #111;
+  animation: introReveal 2.5s ease forwards;
+}
+
+@keyframes introReveal {
+  0%   { opacity: 1; transform: scale(1); }
+  100% { opacity: 0; transform: scale(1.08); }
+}
+
+/* ── Confetti canvas ── */
+#confetti-canvas {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 9998;
+}
+
+/* ── Header ── */
 #header {
   width: 100%;
   max-width: 500px;
@@ -73,7 +99,7 @@ body::after {
   font-size: 2rem;
   font-weight: 400;
   letter-spacing: 0.18em;
-  color: #000000;
+  color: #000;
   text-transform: uppercase;
 }
 
@@ -127,12 +153,9 @@ body::after {
   background: #141414;
   transition: border-color 0.1s;
   text-transform: uppercase;
-
 }
 
-.tile.filled {
-  border-color: #444;
-}
+.tile.filled  { border-color: #444; }
 
 .tile.correct {
   background: #2d4a2d;
@@ -156,18 +179,12 @@ body::after {
   color: #444;
 }
 
-/* ── Animations ── */
-.tile.pop {
-  animation: pop 0.1s ease;
-}
+.tile.winner { animation: winnerGlow 1s infinite alternate; }
 
-.tile.shake {
-  animation: shake 0.4s ease;
-}
-
-.tile.flip {
-  animation: flip 0.5s ease forwards;
-}
+/* ── Tile animations ── */
+.tile.pop   { animation: pop 0.1s ease; }
+.tile.shake { animation: shake 0.4s ease; }
+.tile.flip  { animation: flip 0.5s ease forwards; }
 
 @keyframes pop {
   0%   { transform: scale(1); }
@@ -187,6 +204,11 @@ body::after {
   0%   { transform: rotateX(0); }
   50%  { transform: rotateX(-90deg); }
   100% { transform: rotateX(0); }
+}
+
+@keyframes winnerGlow {
+  from { box-shadow: 0 0 10px rgba(76,175,80,.5); }
+  to   { box-shadow: 0 0 20px rgba(76,175,80,.9), 0 0 40px rgba(76,175,80,.6); }
 }
 
 /* ── Keyboard ── */
@@ -219,28 +241,11 @@ body::after {
   transition: background 0.15s, color 0.15s;
 }
 
-.key:hover { background: #2e2e2e; }
-
-.key.wide {
-  min-width: 68px;
-  font-size: 11px;
-  letter-spacing: 0.08em;
-}
-
-.key.correct {
-  background: #2d4a2d;
-  color: #a8d4a8; 
-}
-
-.key.present {
-  background: #4a3d1a;
-  color: #d4b870;
-}
-
-.key.absent { 
-  background: #161616; 
-  color: #333; 
-}
+.key:hover   { background: #2e2e2e; }
+.key.wide    { min-width: 68px; font-size: 11px; letter-spacing: 0.08em; }
+.key.correct { background: #2d4a2d; color: #a8d4a8; }
+.key.present { background: #4a3d1a; color: #d4b870; }
+.key.absent  { background: #161616; color: #333; }
 
 /* ── Hint bar ── */
 #hint-bar {
@@ -257,26 +262,22 @@ body::after {
   display: none;
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.85);
+  background: rgba(0,0,0,0.85);
   z-index: 100;
   align-items: center;
   justify-content: center;
 }
 
-#modal-overlay.show {
-  display: flex;
-}
+#modal-overlay.show { display: flex; }
 
 #modal {
   background: #141414;
   border: 0.5px solid #2e2e2e;
+  border-radius: 24px;
   padding: 2.5rem 2rem;
   max-width: 340px;
   width: 90%;
   text-align: center;
-}
-#modal {
-  border-radius: 24px;
 }
 
 #modal h2 {
@@ -331,46 +332,83 @@ body::after {
   color: #fff;
 }
 
-#curtain-container {
+@keyframes introReveal {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  99% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+}
+#hint-section {
+  margin-bottom: 1rem;
+}
+
+#hint-btn {
+  background: none;
+  border: 0.5px solid #444;
+  color: #222;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 11px;
+padding: 10px 18px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  cursor: pointer;
+  border-radius: 12px;
+}
+
+#hint-btn:hover {
+  border-color: #222;
+}
+
+#hint-modal-overlay {
+  display: none;
   position: fixed;
   inset: 0;
+  background: rgba(0,0,0,.85);
   z-index: 9999;
-  pointer-events: none;
+  align-items: center;
+  justify-content: center;
 }
 
-.curtain {
-  position: absolute;
-  top: 0;
-  width: 50%;
-  height: 100%;
-  background: linear-gradient(90deg, #4a0012, #7d1032, #a31f52, #7d1032, #4a0012);
-  box-shadow: inset -30px 0 50px rgba(0,0,0,.3);
+#hint-modal-overlay.show {
+  display: flex;
 }
 
-.curtain.left { left: 0; }
-.curtain.right { right: 0; }
-
-.open-left { animation: openLeft 2s ease forwards; }
-.open-right { animation: openRight 2s ease forwards; }
-
-@keyframes openLeft { to { transform: translateX(-100%); } }
-@keyframes openRight { to { transform: translateX(100%); } }
-
-.tile.winner {
-  animation: winnerGlow 1s infinite alternate;
-}
-
-@keyframes winnerGlow {
-  from { box-shadow: 0 0 10px rgba(76,175,80,.5); }
-  to { box-shadow: 0 0 20px rgba(76,175,80,.9), 0 0 40px rgba(76,175,80,.6); }
-}
-
-#game-shell {
-  background: rgba(255,255,255,.45);
-  backdrop-filter: blur(20px);
-  border: 1px solid rgba(255,255,255,.35);
-  border-radius: 32px;
+#hint-modal {
+  background: #141414;
+  border: 1px solid #333;
+  border-radius: 20px;
   padding: 2rem;
-  margin-top: 2rem;
-  box-shadow: 0 30px 60px rgba(0,0,0,.08);
+  width: 300px;
+  text-align: center;
+}
+
+#hint-modal h2 {
+  color: #e8e3d9;
+  margin-bottom: 1.5rem;
+  font-family: 'DM Serif Display', serif;
+}
+
+#hint-modal button {
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 12px;
+  background: #222;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 12px;
+}
+
+#hint-modal button:hover {
+  background: #333;
 }

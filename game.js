@@ -74,8 +74,7 @@ function buildBoard() {
     for (let c = 0; c < 5; c++) {
       const tile = document.createElement('div');
       tile.className = 'tile';
-      tile.id = `tile-${r}-${c}`;
-      row.appendChild(tile);
+tile.id = `tile-${r}-${c}`;      row.appendChild(tile);
     }
     board.appendChild(row);
   }
@@ -105,8 +104,7 @@ function renderBoard() {
   for (let r = 0; r < 6; r++) {
     const guess = gameState.guesses[r] || null;
     for (let c = 0; c < 5; c++) {
-      const tile = document.getElementById(`tile-${r}-${c}`);
-      if (guess) {
+const tile = document.getElementById(`tile-${r}-${c}`);      if (guess) {
         tile.textContent = guess.word[c] || '';
         tile.className = 'tile ' + (guess.result[c] || '');
       } else if (r === gameState.guesses.length) {
@@ -200,20 +198,28 @@ function submitGuess() {
     updateKeyboard();
     renderBoard();
 
-    const won = result.every(r => r === 'correct');
-    if (won) {
-      gameState.gameOver = true; 
-      document.querySelectorAll('.tile.correct')
-  .forEach(tile => {
-    tile.classList.add('winner');
-  });
-      setTimeout(() => showEndModal(true), 400);
-    } else if (gameState.guesses.length === 6) {
-      gameState.gameOver = true;
-      setTimeout(() => showEndModal(false), 400);
-    }
+const won = result.every(r => r === 'correct');
+
+if (won) {
+  launchConfetti();
+
+  gameState.gameOver = true;
+
+  document.querySelectorAll('.tile.correct')
+    .forEach(tile => tile.classList.add('winner'));
+
+  setTimeout(() => showEndModal(true), 400);
+
+} else if (gameState.guesses.length === 6) {
+
+  gameState.gameOver = true;
+
+  setTimeout(() => showEndModal(false), 400);
+}
+
   });
 }
+
 
 /* ── Input handling ──────────────────────── */
 
@@ -303,10 +309,9 @@ function showMessage(msg, duration = 1800) {
     info ? info.display : gameState.answer;
 
   document.getElementById('modal-desc').textContent =
-    info
-      ? info.description
-      : `The answer was ${gameState.answer}.`;
-
+  info
+    ? info.description
+    : `The answer was ${gameState.answer}.`;
   document.getElementById('modal-overlay').classList.add('show');
 }
 
@@ -324,17 +329,84 @@ document.getElementById('play-again-btn').addEventListener('click', () => {
   buildKeyboard();
   renderBoard();
 });
+const confettiCanvas = document.getElementById("confetti-canvas");
+const ctx = confettiCanvas.getContext("2d");
+
+let confettiPieces = [];
+
+function resizeConfettiCanvas() {
+  confettiCanvas.width = window.innerWidth;
+  confettiCanvas.height = window.innerHeight;
+}
+
+window.addEventListener("resize", resizeConfettiCanvas);
+resizeConfettiCanvas();
+
+function launchConfetti() {
+  confettiPieces = [];
+
+  const colors = [
+    "#a8d4a8", // green
+    "#d4b870", // gold
+    "#e8b7a0", // peach
+    "#cdb9d7"  // lavender
+  ];
+
+  for (let i = 0; i < 180; i++) {
+    confettiPieces.push({
+      x: Math.random() * confettiCanvas.width,
+      y: -20,
+      size: Math.random() * 8 + 4,
+      color: colors[Math.floor(Math.random() * colors.length)],
+      speedY: Math.random() * 4 + 2,
+      speedX: (Math.random() - 0.5) * 4,
+      rotation: Math.random() * 360,
+      rotationSpeed: (Math.random() - 0.5) * 10
+    });
+  }
+
+  animateConfetti();
+}
+
+function animateConfetti() {
+  let frame = 0;
+
+  function render() {
+    ctx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+
+    confettiPieces.forEach(piece => {
+      piece.x += piece.speedX;
+      piece.y += piece.speedY;
+      piece.rotation += piece.rotationSpeed;
+
+      ctx.save();
+      ctx.translate(piece.x, piece.y);
+      ctx.rotate(piece.rotation * Math.PI / 180);
+
+      ctx.fillStyle = piece.color;
+      ctx.fillRect(
+        -piece.size / 2,
+        -piece.size / 2,
+        piece.size,
+        piece.size
+      );
+
+      ctx.restore();
+    });
+
+    frame++;
+
+    if (frame < 240) {
+      requestAnimationFrame(render);
+    } else {
+      ctx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+    }
+  }
+
+  render();
+}
 
 /* ── Init ────────────────────────────────── */
-setTimeout(() => {
-  document
-    .querySelector('.curtain.left')
-    .classList.add('open-left');
-
-  document
-    .querySelector('.curtain.right')
-    .classList.add('open-right');
-}, 300);
 async function init() {
   showMessage('Loading...', 0);
   await loadCommonWords();
@@ -346,3 +418,57 @@ async function init() {
 }
 
 init();
+setTimeout(() => {
+  document.getElementById('intro-overlay').remove();
+}, 2500);
+let hintUsed = false;
+document.getElementById('category-hint-btn')
+.addEventListener('click', () => {
+
+  const info = WORD_INFO[gameState.answer];
+
+  if (!info || !info.category) {
+    showMessage('No category available');
+    return;
+  }
+
+  showMessage(`Category: ${info.category}`, 5000);
+
+  hintUsed = true;
+
+  document
+    .getElementById('hint-modal-overlay')
+    .classList.remove('show');
+});
+document.getElementById('letter-hint-btn')
+.addEventListener('click', () => {
+
+  const answer = gameState.answer;
+
+  const index =
+    Math.floor(Math.random() * answer.length);
+
+  const letter = answer[index];
+
+  showMessage(
+    `Letter ${index + 1}: ${letter}`,
+    5000
+  );
+
+  hintUsed = true;
+
+  document
+    .getElementById('hint-modal-overlay')
+    .classList.remove('show');
+});
+document.getElementById('hint-btn').addEventListener('click', () => {
+
+  if (hintUsed) {
+    showMessage('Hint already used');
+    return;
+  }
+
+  document
+    .getElementById('hint-modal-overlay')
+    .classList.add('show');
+});
