@@ -3,7 +3,7 @@
    Depends on: words.js loaded before this
 ───────────────────────────────────────── */
 
-const WORD_LIST_URL = 'https://gist.githubusercontent.com/daemondevin/df09befaf533c380743bc2c378863f0c/raw/b79b0628e79766326cdd61cc52a7222b8e5ad49a/5-letter-words.txt';
+const WORD_LIST_URL = 'https://raw.githubusercontent.com/tabatkins/wordle-list/refs/heads/main/words';
 
 const KB_ROWS = [
   ['Q','W','E','R','T','Y','U','I','O','P'],
