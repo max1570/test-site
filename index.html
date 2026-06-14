@@ -1,10 +1,46 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>My First Agency Site</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cinematle</title>
+  <meta name="description" content="A daily film word game. Guess the cinema word in 6 tries." />
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-    <h1>Hello, this wertyuiuytrewis my first deployed website</h1>
-    <p>I just updated this from VS Code.</p>
+
+  <div id="header">
+    <h1>Cinematle</h1>
+    <p>Guess the film word &mdash; 6 tries</p>
+  </div>
+
+  <div id="message-bar"></div>
+
+  <div id="board"></div>
+
+  <div id="keyboard"></div>
+
+  <div id="hint-bar">Directors &middot; Characters &middot; Films &middot; Cinema</div>
+
+  <!-- End of game modal -->
+  <div id="modal-overlay">
+    <div id="modal">
+      <h2 id="modal-title"></h2>
+      <div class="answer-reveal">today's word was</div>
+      <div class="answer-word" id="modal-word"></div>
+      <p id="modal-desc"></p>
+      <!--
+        Remove this button when you go live.
+        In production, players wait until tomorrow for a new word.
+        It's only here so you can test different words easily.
+      -->
+      <button id="play-again-btn">Play again</button>
+    </div>
+  </div>
+
+  <!-- words.js must load before game.js -->
+  <script src="words.js"></script>
+  <script src="game.js"></script>
+
 </body>
 </html>

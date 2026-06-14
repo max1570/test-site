@@ -1,0 +1,279 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Serif+Display&display=swap');
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: #0e0e0e;
+  min-height: 100vh;
+  font-family: 'DM Sans', sans-serif;
+  color: #e8e3d9;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 1rem 3rem;
+}
+
+/* ── Header ── */
+
+#header {
+  width: 100%;
+  max-width: 500px;
+  border-bottom: 0.5px solid #2a2a2a;
+  padding: 1.25rem 0 1rem;
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+
+#header h1 {
+  font-family: 'DM Serif Display', serif;
+  font-size: 2rem;
+  font-weight: 400;
+  letter-spacing: 0.18em;
+  color: #e8e3d9;
+  text-transform: uppercase;
+}
+
+#header p {
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  color: #555;
+  text-transform: uppercase;
+  margin-top: 4px;
+}
+
+/* ── Message bar ── */
+
+#message-bar {
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #888;
+  margin-bottom: 0.5rem;
+}
+
+/* ── Board ── */
+
+#board {
+  display: grid;
+  grid-template-rows: repeat(6, 1fr);
+  gap: 5px;
+  margin-bottom: 1.5rem;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 5px;
+}
+
+.tile {
+  width: 58px;
+  height: 58px;
+  border: 0.5px solid #2e2e2e;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  font-weight: 600;
+  font-family: 'DM Sans', sans-serif;
+  letter-spacing: 0.05em;
+  color: #e8e3d9;
+  background: #141414;
+  transition: border-color 0.1s;
+  text-transform: uppercase;
+}
+
+.tile.filled {
+  border-color: #444;
+}
+
+.tile.correct {
+  background: #2d4a2d;
+  border-color: #2d4a2d;
+  color: #a8d4a8;
+}
+
+.tile.present {
+  background: #4a3d1a;
+  border-color: #4a3d1a;
+  color: #d4b870;
+}
+
+.tile.absent {
+  background: #1a1a1a;
+  border-color: #1a1a1a;
+  color: #444;
+}
+
+/* ── Animations ── */
+
+.tile.pop {
+  animation: pop 0.1s ease;
+}
+
+.tile.shake {
+  animation: shake 0.4s ease;
+}
+
+.tile.flip {
+  animation: flip 0.5s ease forwards;
+}
+
+@keyframes pop {
+  0%   { transform: scale(1); }
+  50%  { transform: scale(1.12); }
+  100% { transform: scale(1); }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20%       { transform: translateX(-4px); }
+  40%       { transform: translateX(4px); }
+  60%       { transform: translateX(-4px); }
+  80%       { transform: translateX(4px); }
+}
+
+@keyframes flip {
+  0%   { transform: rotateX(0); }
+  50%  { transform: rotateX(-90deg); }
+  100% { transform: rotateX(0); }
+}
+
+/* ── Keyboard ── */
+
+#keyboard {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: center;
+}
+
+.kb-row {
+  display: flex;
+  gap: 5px;
+}
+
+.key {
+  height: 56px;
+  min-width: 36px;
+  padding: 0 6px;
+  border: none;
+  background: #222;
+  color: #ccc;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  cursor: pointer;
+  border-radius: 3px;
+  transition: background 0.15s, color 0.15s;
+}
+
+.key:hover { background: #2e2e2e; }
+
+.key.wide {
+  min-width: 56px;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+}
+
+.key.correct { background: #2d4a2d; color: #a8d4a8; }
+.key.present { background: #4a3d1a; color: #d4b870; }
+.key.absent  { background: #161616; color: #333; }
+
+/* ── Hint bar ── */
+
+#hint-bar {
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #333;
+  margin-top: 1rem;
+  text-align: center;
+}
+
+/* ── End modal ── */
+
+#modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+  z-index: 100;
+  align-items: center;
+  justify-content: center;
+}
+
+#modal-overlay.show {
+  display: flex;
+}
+
+#modal {
+  background: #141414;
+  border: 0.5px solid #2e2e2e;
+  padding: 2.5rem 2rem;
+  max-width: 340px;
+  width: 90%;
+  text-align: center;
+}
+
+#modal h2 {
+  font-family: 'DM Serif Display', serif;
+  font-size: 1.5rem;
+  font-weight: 400;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+  color: #e8e3d9;
+}
+
+#modal .answer-reveal {
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #555;
+  margin-bottom: 1rem;
+}
+
+#modal .answer-word {
+  font-family: 'DM Serif Display', serif;
+  font-size: 2.2rem;
+  letter-spacing: 0.2em;
+  color: #d4b870;
+  margin-bottom: 1.5rem;
+}
+
+#modal p {
+  font-size: 13px;
+  color: #666;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+  letter-spacing: 0.03em;
+}
+
+#play-again-btn {
+  background: none;
+  border: 0.5px solid #444;
+  color: #e8e3d9;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  padding: 12px 28px;
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s;
+}
+
+#play-again-btn:hover {
+  border-color: #888;
+  color: #fff;
+}
