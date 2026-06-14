@@ -287,19 +287,28 @@ function showMessage(msg, duration = 1800) {
   }
 }
 
-function showEndModal(won) {
-  const randomWinLine = WIN_LINES[Math.floor(Math.random() * WIN_LINES.length)];
+
+
+  function showEndModal(won) {
+  const randomWinLine =
+    WIN_LINES[Math.floor(Math.random() * WIN_LINES.length)];
+
+  const info = WORD_INFO[gameState.answer];
+
   document.getElementById('modal-title').textContent = won
     ? randomWinLine
     : 'The reel ends here.';
-  document.getElementById('modal-word').textContent = gameState.answer;
-  document.getElementById('modal-desc').textContent = won
-    ? `You got it in ${gameState.guesses.length} ${gameState.guesses.length === 1 ? 'guess' : 'guesses'}.`
-    : "Better luck at tomorrow's screening.";
+
+  document.getElementById('modal-word').textContent =
+    info ? info.display : gameState.answer;
+
+  document.getElementById('modal-desc').textContent =
+    info
+      ? info.description
+      : `The answer was ${gameState.answer}.`;
+
   document.getElementById('modal-overlay').classList.add('show');
 }
-
-/* ── Play again (remove before going live) ── */
 
 document.getElementById('play-again-btn').addEventListener('click', () => {
   gameState = {

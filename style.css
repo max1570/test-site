@@ -9,19 +9,23 @@
 body {
   min-height: 100vh;
 
-  /* Soft, warm pastel peach background with light lavender and mint gradients */
   background:
     radial-gradient(
-      circle at top,
-      rgba(230, 220, 255, 0.4), /* Pastel Lavender glow */
-      transparent 45%
+      circle at 20% 20%,
+      rgba(232, 183, 160, 0.28),
+      transparent 35%
     ),
     radial-gradient(
-      circle at bottom right,
-      rgba(215, 245, 230, 0.4), /* Pastel Mint glow */
+      circle at 85% 25%,
+      rgba(205, 185, 215, 0.22),
       transparent 40%
     ),
-    #fbf5f0; /* Creamy Pastel Peach base */
+    radial-gradient(
+      circle at 70% 85%,
+      rgba(225, 196, 160, 0.25),
+      transparent 45%
+    ),
+    #efe4d6;
 
   color: #222;
   font-family: 'DM Sans', sans-serif;
@@ -44,13 +48,13 @@ body::after {
 }
 
 body::before {
-  background: rgba(255, 218, 224, 0.45); /* Soft Pastel Rose Pink */
+  background: rgba(215, 145, 120, 0.35);
   top: -150px;
   left: -100px;
 }
 
 body::after {
-  background: rgba(212, 235, 255, 0.45); /* Soft Pastel Powder Blue */
+  background: rgba(180, 160, 220, 0.25);
   bottom: -150px;
   right: -100px;
 }
@@ -123,6 +127,7 @@ body::after {
   background: #141414;
   transition: border-color 0.1s;
   text-transform: uppercase;
+
 }
 
 .tile.filled {
@@ -269,6 +274,9 @@ body::after {
   max-width: 340px;
   width: 90%;
   text-align: center;
+}
+#modal {
+  border-radius: 24px;
 }
 
 #modal h2 {
