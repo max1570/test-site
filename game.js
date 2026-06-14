@@ -12,11 +12,11 @@ const KB_ROWS = [
 ];
 
 const WIN_LINES = [
-  "That's a wrap.",
-  "Roll credits.",
-  "And scene.",
-  "Standing ovation.",
-  "Box office hit."
+  "Well Done!",
+  "👏",
+  "🎬👏",
+  "🎥👏",
+  "👏📽️"
 ];
 
 let gameState = {
@@ -202,7 +202,11 @@ function submitGuess() {
 
     const won = result.every(r => r === 'correct');
     if (won) {
-      gameState.gameOver = true;
+      gameState.gameOver = true; 
+      document.querySelectorAll('.tile.correct')
+  .forEach(tile => {
+    tile.classList.add('winner');
+  });
       setTimeout(() => showEndModal(true), 400);
     } else if (gameState.guesses.length === 6) {
       gameState.gameOver = true;
@@ -313,7 +317,15 @@ document.getElementById('play-again-btn').addEventListener('click', () => {
 });
 
 /* ── Init ────────────────────────────────── */
+setTimeout(() => {
+  document
+    .querySelector('.curtain.left')
+    .classList.add('open-left');
 
+  document
+    .querySelector('.curtain.right')
+    .classList.add('open-right');
+}, 300);
 async function init() {
   showMessage('Loading...', 0);
   await loadCommonWords();
