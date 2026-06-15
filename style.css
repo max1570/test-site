@@ -1,23 +1,22 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Serif+Display&display=swap');
-
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@700&display=swap');
+#title-heading {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
+  font-size: 2.8rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;  /* tight, Apple-style */
+  color: #111;
+  line-height: 1.1;
 }
 
 body {
   min-height: 100vh;
   background: #CFECF3;
-    ;
   color: #222;
-  font-family: 'DM Sans', sans-serif;
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 0 1rem 3rem;
 }
-
 
 /* ── Film grain overlay ── */
 #film-grain {
@@ -95,20 +94,20 @@ body {
 }
 
 #header h1 {
-  font-family: 'DM Serif Display', serif;
-  font-size: 2rem;
-  font-weight: 400;
-  letter-spacing: 0.18em;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
+  font-size: 2.2rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;   /* tight, not spaced out */
   color: #000;
   text-transform: uppercase;
 }
-
 #header p {
-  font-size: 11px;
-  letter-spacing: 0.2em;
-  color: #555;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: -0.008em;   /* tight, not spaced out */
+  color: #000;
   text-transform: uppercase;
-  margin-top: 4px;
 }
 
 /* ── Message bar ── */
@@ -147,7 +146,7 @@ body {
   justify-content: center;
   font-size: 1.6rem;
   font-weight: 600;
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Geist', sans-serif;
   letter-spacing: 0.05em;
   color: #e8e3d9;
   background: #141414;
@@ -231,7 +230,7 @@ body {
   border: none;
   background: #222;
   color: #ccc;
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
   font-size: 14px;
   font-weight: 500;
   letter-spacing: 0.05em;
@@ -249,6 +248,8 @@ body {
 
 /* ── Hint bar ── */
 #hint-bar {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
+
   font-size: 11px;
   letter-spacing: 0.15em;
   text-transform: uppercase;
@@ -281,7 +282,7 @@ body {
 }
 
 #modal h2 {
-  font-family: 'DM Serif Display', serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
   font-size: 1.5rem;
   font-weight: 400;
   letter-spacing: 0.15em;
@@ -299,7 +300,7 @@ body {
 }
 
 #modal .answer-word {
-  font-family: 'DM Serif Display', serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
   font-size: 2.2rem;
   letter-spacing: 0.2em;
   color: #d4b870;
@@ -318,7 +319,7 @@ body {
   background: none;
   border: 0.5px solid #444;
   color: #e8e3d9;
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
   font-size: 11px;
   letter-spacing: 0.18em;
   text-transform: uppercase;
@@ -351,12 +352,15 @@ body {
 #hint-section {
   margin-bottom: 1rem;
 }
-
+#header {
+  cursor: pointer;
+}
 #hint-btn {
+    
   background: none;
   border: 0.5px solid #444;
   color: #222;
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
   font-size: 11px;
 padding: 10px 18px;
   letter-spacing: 0.15em;
@@ -395,7 +399,7 @@ padding: 10px 18px;
 #hint-modal h2 {
   color: #e8e3d9;
   margin-bottom: 1.5rem;
-  font-family: 'DM Serif Display', serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
 }
 
 #hint-modal button {
@@ -417,4 +421,89 @@ padding: 10px 18px;
   font-size: 13px;
   letter-spacing: 0.1em;
   color: #d4b870;
+}
+/* ── Title Screen ── */
+#title-screen {
+  position: fixed;
+  inset: 0;
+  background: #CFECF3;
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Geist', sans-serif;
+}
+
+#title-content {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+#title-heading {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
+  font-size: 3rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: #000000;
+}
+
+#title-tagline {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
+
+  font-size: 1.7rem;
+  font-weight: 400;
+  color: #000000;
+  max-width: 300px;
+  line-height: 1.5;
+}
+
+#title-date {
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  color: #111;
+  text-transform: uppercase;
+}
+
+#title-buttons {
+  display: flex;
+  gap: 12px;
+  margin-top: 0.5rem;
+}
+
+
+
+#play-btn {
+  padding: 12px 36px;
+  border: none;
+  background: #111;
+  color: #fff;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 500;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+#play-btn:hover {
+  background: #333;
+}
+/* ── Letterboxd Footer ── */
+#letterboxd-footer {
+  margin-top: 2.5rem;
+  display: flex;
+  justify-content: center;
+}
+
+#letterboxd-logo {
+  width: 80px;
+  opacity: 1;
+}
+
+#letterboxd-logo:hover {
+  opacity: 1;
 }

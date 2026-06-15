@@ -5,9 +5,26 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>The Fifth Sense</title>
   <meta name="description" content="A daily film word game. Guess the cinema word in 6 tries." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css" />
 </head>
+
 <body>
+
+  <!-- Title Screen -->
+  <div id="title-screen">
+    <div id="title-content">
+      <h1 id="title-heading">The Fifth Sense</h1>
+      <p id="title-tagline">Six chances to guess a five‑letter word from the world of cinema.</p>
+      <p id="title-date"></p>
+      <div id="title-buttons">
+        <button id="play-btn">Play</button>
+      </div>
+    </div>
+  </div>
+
 <div id="intro-overlay"></div>
 <div id="film-grain"></div>
 <div id="projector-flash"></div>
@@ -23,20 +40,15 @@
   <button id="hint-btn">🎬 Hint (one use only)</button>
 </div>
 
+
   <div id="keyboard"></div>
 
   <div id="hint-bar">Directors &middot; Characters &middot; Films &middot; Cinema</div>
 <div id="hint-modal-overlay">
   <div id="hint-modal">
     <h2>Choose a Hint</h2>
-
-    <button id="category-hint-btn">
-      Reveal Category
-    </button>
-
-    <button id="letter-hint-btn">
-      Reveal Letter
-    </button>
+    <button id="category-hint-btn">Reveal Category</button>
+    <button id="letter-hint-btn">Reveal Letter</button>
   </div>
 </div>
   <div id="modal-overlay">
@@ -45,12 +57,30 @@
       <div class="answer-reveal">today's word was</div>
       <div class="answer-word" id="modal-word"></div>
       <p id="modal-desc"></p>
-<div id="next-puzzle-timer"></div>      
+      <div id="next-puzzle-timer"></div>
     </div>
   </div>
 
- <canvas id="confetti-canvas"></canvas>
+  <canvas id="confetti-canvas"></canvas>
   <script src="words.js"></script>
   <script src="game.js"></script>
+  <script>
+    // Set today's date on title screen
+    const dateEl = document.getElementById('title-date');
+    const today = new Date();
+    dateEl.textContent = today.toLocaleDateString('en-NZ', {
+      weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+    });
+
+    // Play button dismisses title screen
+    document.getElementById('play-btn').addEventListener('click', () => {
+      document.getElementById('title-screen').style.display = 'none';
+    });
+  </script>
+  <div id="letterboxd-footer">
+  <a href="https://letterboxd.com/max1780/" target="_blank" rel="noopener noreferrer">
+    <img src="https://a.ltrbxd.com/logos/letterboxd-logo-v-neg-rgb.svg" alt="Letterboxd" id="letterboxd-logo" />
+  </a>
+</div>
 </body>
 </html>

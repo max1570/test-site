@@ -327,6 +327,9 @@ function showMessage(msg, duration = 1800) {
     }, duration);
   }
 }
+document.getElementById('header').addEventListener('click', () => {
+  document.getElementById('title-screen').style.display = 'flex';
+});
 
 
 
