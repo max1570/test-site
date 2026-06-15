@@ -26,6 +26,40 @@ let gameState = {
   gameOver: false,
   letterStates: {}
 };
+function getTodayKey() {
+  const today = new Date();
+
+  return `${today.getFullYear()}-${
+    today.getMonth() + 1
+  }-${today.getDate()}`;
+}
+function saveGame() {
+  localStorage.setItem(
+    'cinematle-' + getTodayKey(),
+    JSON.stringify({
+      gameState,
+      hintUsed,
+      savedHint
+    })
+  );
+}
+function loadGame() {
+  const data = localStorage.getItem(
+    'cinematle-' + getTodayKey()
+  );
+
+  if (!data) return false;
+
+  const save = JSON.parse(data);
+
+  gameState = save.gameState;
+
+  hintUsed = save.hintUsed || false;
+
+  savedHint = save.savedHint || '';
+
+  return true;
+}
 
 /* ── Word list loading ───────────────────── */
 
@@ -197,6 +231,7 @@ function submitGuess() {
 
     updateKeyboard();
     renderBoard();
+    saveGame();
 
 const won = result.every(r => r === 'correct');
 
@@ -296,6 +331,7 @@ function showMessage(msg, duration = 1800) {
 
 
   function showEndModal(won) {
+    startCountdown();
   const randomWinLine =
     WIN_LINES[Math.floor(Math.random() * WIN_LINES.length)];
 
@@ -315,20 +351,7 @@ function showMessage(msg, duration = 1800) {
   document.getElementById('modal-overlay').classList.add('show');
 }
 
-document.getElementById('play-again-btn').addEventListener('click', () => {
-  gameState = {
-    answer: getRandomAnswer(),
-    guesses: [],
-    currentGuess: '',
-    gameOver: false,
-    letterStates: {}
-  };
-  document.getElementById('message-bar').textContent = '';
-  document.getElementById('modal-overlay').classList.remove('show');
-  buildBoard();
-  buildKeyboard();
-  renderBoard();
-});
+
 const confettiCanvas = document.getElementById("confetti-canvas");
 const ctx = confettiCanvas.getContext("2d");
 
@@ -408,13 +431,27 @@ function animateConfetti() {
 
 /* ── Init ────────────────────────────────── */
 async function init() {
+
   showMessage('Loading...', 0);
+
   await loadCommonWords();
-  document.getElementById('message-bar').textContent = '';
+
   gameState.answer = getDailyAnswer();
+
   buildBoard();
   buildKeyboard();
+
+  const loaded = loadGame();
+
   renderBoard();
+  updateKeyboard();
+
+  if (loaded && savedHint) {
+    showMessage(savedHint, 0);
+  }
+
+  document.getElementById('message-bar').textContent =
+    savedHint || '';
 }
 
 init();
@@ -422,6 +459,7 @@ setTimeout(() => {
   document.getElementById('intro-overlay').remove();
 }, 2500);
 let hintUsed = false;
+let savedHint = '';
 document.getElementById('category-hint-btn')
 .addEventListener('click', () => {
 
@@ -432,10 +470,11 @@ document.getElementById('category-hint-btn')
     return;
   }
 
-  showMessage(`Category: ${info.category}`, 5000);
+savedHint = `Category: ${info.category}`;
 
-  hintUsed = true;
+showMessage(savedHint, 0);
 
+hintUsed = true;
   document
     .getElementById('hint-modal-overlay')
     .classList.remove('show');
@@ -450,12 +489,12 @@ document.getElementById('letter-hint-btn')
 
   const letter = answer[index];
 
-  showMessage(
-    `Letter ${index + 1}: ${letter}`,
-    5000
-  );
+  savedHint = `Letter ${index + 1}: ${letter}`;
 
-  hintUsed = true;
+showMessage(savedHint, 0);
+
+hintUsed = true;
+saveGame();
 
   document
     .getElementById('hint-modal-overlay')
@@ -472,3 +511,35 @@ document.getElementById('hint-btn').addEventListener('click', () => {
     .getElementById('hint-modal-overlay')
     .classList.add('show');
 });
+function startCountdown() {
+
+  const timer =
+    document.getElementById('next-puzzle-timer');
+
+  function update() {
+
+    const now = new Date();
+
+    const tomorrow = new Date();
+
+    tomorrow.setHours(24, 0, 0, 0);
+
+    const diff = tomorrow - now;
+
+    const hours =
+      Math.floor(diff / 3600000);
+
+    const mins =
+      Math.floor(diff % 3600000 / 60000);
+
+    const secs =
+      Math.floor(diff % 60000 / 1000);
+
+    timer.textContent =
+      `Next puzzle in ${hours}h ${mins}m ${secs}s`;
+  }
+
+  update();
+
+  setInterval(update, 1000);
+}
