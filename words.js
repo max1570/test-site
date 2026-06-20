@@ -3,7 +3,7 @@ const FILM_WORDS = [
   "BABEL","BAMBI","BRAVE","BRICK","BULLY",
   "CAROL","CLICK","CRASH","CREED","DRIVE",
   "DUMBO","ENEMY","ELVIS","EVITA","FARGO",
-  "JOKER","LOGAN","NIXON","MOANA","MOVIE","PEARL",
+  "JOKER","LOGAN","NIXON","MOANA","PEARL",
   "RANGO","RAMBO","ROCKY","SCENE","SEVEN","SHREK",
   "SPLIT","SIGNS","SMILE","SPEED","SULLY",
   "TAKEN","TENET","THIEF","WONKA",
@@ -142,11 +142,7 @@ const WORD_INFO = {
     category: "Film",
     display: "Moana (2016)",
     description: "Disney's Pacific Islander adventure. The daughter of a Polynesian chief sails beyond the reef to restore the heart of the ocean, joined by the demigod Maui."
-  },
-  MOVIE: {
-    category: "Film Synonym",
-    display: "Movie",
-    description: "Does this really need an explanation..."
+  
   },
   PEARL: {
     category: "Film",
