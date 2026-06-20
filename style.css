@@ -1,12 +1,4 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@700&display=swap');
-#title-heading {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
-  font-size: 2.8rem;
-  font-weight: 700;
-  letter-spacing: -0.03em;  /* tight, Apple-style */
-  color: #111;
-  line-height: 1.1;
-}
 
 body {
   min-height: 100vh;
@@ -18,7 +10,6 @@ body {
   padding: 0 1rem 3rem;
 }
 
-/* ── Film grain overlay ── */
 #film-grain {
   position: fixed;
   inset: 0;
@@ -37,10 +28,7 @@ body {
   100% { transform: translate(0, 0); }
 }
 
-/* ── Projector flash ── */
 #projector-flash {
-  pointer-events: none;  /* add this line */
-
   position: fixed;
   inset: 0;
   z-index: 9998;
@@ -56,7 +44,6 @@ body {
   100% { opacity: 0; }
 }
 
-/* ── Intro overlay ── */
 #intro-overlay {
   position: fixed;
   inset: 0;
@@ -70,10 +57,10 @@ body {
 
 @keyframes introReveal {
   0%   { opacity: 1; transform: scale(1); }
-  100% { opacity: 0; transform: scale(1.08); }
+  99%  { opacity: 0; }
+  100% { opacity: 0; visibility: hidden; pointer-events: none; }
 }
 
-/* ── Confetti canvas ── */
 #confetti-canvas {
   position: fixed;
   inset: 0;
@@ -83,7 +70,6 @@ body {
   z-index: 9998;
 }
 
-/* ── Header ── */
 #header {
   width: 100%;
   max-width: 500px;
@@ -91,26 +77,27 @@ body {
   padding: 1.25rem 0 1rem;
   text-align: center;
   margin-bottom: 0.5rem;
+  cursor: pointer;
 }
 
 #header h1 {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
   font-size: 2.2rem;
   font-weight: 700;
-  letter-spacing: -0.02em;   /* tight, not spaced out */
-  color: #000;
-  text-transform: uppercase;
-}
-#header p {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
-  font-size: 1.2rem;
-  font-weight: 700;
-  letter-spacing: -0.008em;   /* tight, not spaced out */
+  letter-spacing: -0.02em;
   color: #000;
   text-transform: uppercase;
 }
 
-/* ── Message bar ── */
+#header p {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: -0.008em;
+  color: #000;
+  text-transform: uppercase;
+}
+
 #message-bar {
   height: 28px;
   display: flex;
@@ -123,18 +110,12 @@ body {
   margin-bottom: 0.5rem;
 }
 
-/* ── Board ── */
 #board {
   display: grid;
   grid-template-rows: repeat(6, 1fr);
   gap: 5px;
   margin-bottom: 1.5rem;
-}
-
-.row {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 5px;
+  perspective: 1000px;
 }
 
 .tile {
@@ -152,20 +133,28 @@ body {
   background: #141414;
   transition: border-color 0.1s;
   text-transform: uppercase;
+
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+}
+.row {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 5px;
 }
 
-.tile.filled  { border-color: #444; }
+
+.tile.filled { border-color: #444; }
 
 .tile.correct {
-  background: #2d4a2d;
+  background-color: #2d4a2d;
   border-color: #2d4a2d;
-  color: #a8d4a8;
-  box-shadow:
-    0 0 10px rgba(76,175,80,.5),
-    0 0 20px rgba(76,175,80,.4),
-    0 0 30px rgba(76,175,80,.3);
-}
+  color: #ffffff;
 
+  box-shadow:
+    0 0 8px rgba(76,175,80,.45),
+    0 0 16px rgba(76,175,80,.25);
+}
 .tile.present {
   background: #4a3d1a;
   border-color: #4a3d1a;
@@ -180,17 +169,29 @@ body {
 
 .tile.winner { animation: winnerGlow 1s infinite alternate; }
 
-/* ── Tile animations ── */
 .tile.pop   { animation: pop 0.1s ease; }
 .tile.shake { animation: shake 0.4s ease; }
-.tile.flip  { animation: flip 0.5s ease forwards; }
-
-@keyframes pop {
-  0%   { transform: scale(1); }
-  50%  { transform: scale(1.12); }
-  100% { transform: scale(1); }
+.tile.flip {
+  animation: flipTile 0.6s cubic-bezier(.4,0,.2,1);
 }
 
+@keyframes flipTile {
+  0% {
+    transform: rotateX(0deg);
+  }
+
+  45% {
+    transform: rotateX(-90deg);
+  }
+
+  55% {
+    transform: rotateX(-90deg);
+  }
+
+  100% {
+    transform: rotateX(0deg);
+  }
+}
 @keyframes shake {
   0%, 100% { transform: translateX(0); }
   20%       { transform: translateX(-4px); }
@@ -199,18 +200,12 @@ body {
   80%       { transform: translateX(4px); }
 }
 
-@keyframes flip {
-  0%   { transform: rotateX(0); }
-  50%  { transform: rotateX(-90deg); }
-  100% { transform: rotateX(0); }
-}
-
+ 
 @keyframes winnerGlow {
   from { box-shadow: 0 0 10px rgba(76,175,80,.5); }
   to   { box-shadow: 0 0 20px rgba(76,175,80,.9), 0 0 40px rgba(76,175,80,.6); }
 }
 
-/* ── Keyboard ── */
 #keyboard {
   display: flex;
   flex-direction: column;
@@ -246,10 +241,29 @@ body {
 .key.present { background: #4a3d1a; color: #d4b870; }
 .key.absent  { background: #161616; color: #333; }
 
-/* ── Hint bar ── */
-#hint-bar {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
+#hint-section {
+  margin-bottom: 1rem;
+}
 
+#hint-btn {
+  background: none;
+  border: 0.5px solid #444;
+  color: #222;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
+  font-size: 11px;
+  padding: 10px 18px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  cursor: pointer;
+  border-radius: 12px;
+}
+
+#hint-btn:hover {
+  border-color: #222;
+}
+
+#hint-bar {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
   font-size: 11px;
   letter-spacing: 0.15em;
   text-transform: uppercase;
@@ -258,7 +272,50 @@ body {
   text-align: center;
 }
 
-/* ── End modal ── */
+#hint-modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.85);
+  z-index: 9999;
+  align-items: center;
+  justify-content: center;
+}
+
+#hint-modal-overlay.show {
+  display: flex;
+}
+
+#hint-modal {
+  background: #141414;
+  border: 1px solid #333;
+  border-radius: 20px;
+  padding: 2rem;
+  width: 300px;
+  text-align: center;
+}
+
+#hint-modal h2 {
+  color: #e8e3d9;
+  margin-bottom: 1.5rem;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
+}
+
+#hint-modal button {
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 12px;
+  background: #222;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 12px;
+}
+
+#hint-modal button:hover {
+  background: #333;
+}
+
 #modal-overlay {
   display: none;
   position: fixed;
@@ -315,114 +372,13 @@ body {
   letter-spacing: 0.03em;
 }
 
-#play-again-btn {
-  background: none;
-  border: 0.5px solid #444;
-  color: #e8e3d9;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
-  font-size: 11px;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  padding: 12px 28px;
-  cursor: pointer;
-  transition: border-color 0.2s, color 0.2s;
-}
-
-#play-again-btn:hover {
-  border-color: #888;
-  color: #fff;
-}
-
-@keyframes introReveal {
-  0% {
-    opacity: 1;
-    transform: scale(1);
-  }
-
-  99% {
-    opacity: 0;
-  }
-
-  100% {
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
-  }
-}
-#hint-section {
-  margin-bottom: 1rem;
-}
-#header {
-  cursor: pointer;
-}
-#hint-btn {
-    
-  background: none;
-  border: 0.5px solid #444;
-  color: #222;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
-  font-size: 11px;
-padding: 10px 18px;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  cursor: pointer;
-  border-radius: 12px;
-}
-
-#hint-btn:hover {
-  border-color: #222;
-}
-
-#hint-modal-overlay {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,.85);
-  z-index: 9999;
-  align-items: center;
-  justify-content: center;
-}
-
-#hint-modal-overlay.show {
-  display: flex;
-}
-
-#hint-modal {
-  background: #141414;
-  border: 1px solid #333;
-  border-radius: 20px;
-  padding: 2rem;
-  width: 300px;
-  text-align: center;
-}
-
-#hint-modal h2 {
-  color: #e8e3d9;
-  margin-bottom: 1.5rem;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
-}
-
-#hint-modal button {
-  width: 100%;
-  margin-bottom: 10px;
-  padding: 12px;
-  background: #222;
-  color: white;
-  border: none;
-  cursor: pointer;
-  border-radius: 12px;
-}
-
-#hint-modal button:hover {
-  background: #333;
-}
 #next-puzzle-timer {
   margin-bottom: 1.5rem;
   font-size: 13px;
   letter-spacing: 0.1em;
   color: #d4b870;
 }
-/* ── Title Screen ── */
+
 #title-screen {
   position: fixed;
   inset: 0;
@@ -451,8 +407,7 @@ padding: 10px 18px;
 }
 
 #title-tagline {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
-
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
   font-size: 1.7rem;
   font-weight: 400;
   color: #000000;
@@ -474,14 +429,12 @@ padding: 10px 18px;
   margin-top: 0.5rem;
 }
 
-
-
 #play-btn {
   padding: 12px 36px;
   border: none;
   background: #111;
   color: #fff;
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
   font-size: 0.9rem;
   font-weight: 500;
   border-radius: 999px;
@@ -492,7 +445,7 @@ padding: 10px 18px;
 #play-btn:hover {
   background: #333;
 }
-/* ── Letterboxd Footer ── */
+
 #letterboxd-footer {
   margin-top: 2.5rem;
   display: flex;
@@ -501,9 +454,5 @@ padding: 10px 18px;
 
 #letterboxd-logo {
   width: 80px;
-  opacity: 1;
-}
-
-#letterboxd-logo:hover {
   opacity: 1;
 }

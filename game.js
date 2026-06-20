@@ -1,7 +1,3 @@
-/* ─────────────────────────────────────────
-   Cinematle — game logic
-   Depends on: words.js loaded before this
-───────────────────────────────────────── */
 
 const WORD_LIST_URL = 'https://raw.githubusercontent.com/tabatkins/wordle-list/refs/heads/main/words';
 
@@ -61,7 +57,6 @@ function loadGame() {
   return true;
 }
 
-/* ── Word list loading ───────────────────── */
 
 async function loadCommonWords() {
   try {
@@ -73,18 +68,11 @@ async function loadCommonWords() {
       .filter(w => /^[A-Z]{5}$/.test(w));
     ALL_VALID = new Set([...FILM_WORDS, ...words]);
   } catch (err) {
-    // If fetch fails, fall back to just film words being valid
     console.warn('Could not load common word list, using film words only.', err);
     ALL_VALID = new Set(FILM_WORDS);
   }
 }
 
-/* ── Word selection ──────────────────────
-   getDailyAnswer: same word for everyone
-   on the same calendar day.
-   getRandomAnswer: for the test play-again
-   button — remove that button when live.
-─────────────────────────────────────────── */
 
 function getDailyAnswer() {
   const START = new Date('2024-01-01').getTime();
@@ -92,11 +80,7 @@ function getDailyAnswer() {
   return FILM_WORDS[dayIndex % FILM_WORDS.length];
 }
 
-function getRandomAnswer() {
-  return FILM_WORDS[Math.floor(Math.random() * FILM_WORDS.length)];
-}
 
-/* ── Build DOM ───────────────────────────── */
 
 function buildBoard() {
   const board = document.getElementById('board');
@@ -132,7 +116,6 @@ function buildKeyboard() {
   });
 }
 
-/* ── Render ──────────────────────────────── */
 
 function renderBoard() {
   for (let r = 0; r < 6; r++) {
@@ -159,7 +142,6 @@ function updateKeyboard() {
   });
 }
 
-/* ── Game logic ──────────────────────────── */
 
 function evaluateGuess(guess, answer) {
   const result    = Array(5).fill('absent');
@@ -256,7 +238,6 @@ if (won) {
 }
 
 
-/* ── Input handling ──────────────────────── */
 
 function handleKey(key) {
   if (gameState.gameOver) return;
@@ -292,21 +273,28 @@ document.addEventListener('keydown', e => {
   else if (/^[A-Z]$/.test(key)) handleKey(key);
 });
 
-/* ── Animations ──────────────────────────── */
 
 function animateRow(rowIdx, results, callback) {
   for (let c = 0; c < 5; c++) {
     const tile = document.getElementById(`tile-${rowIdx}-${c}`);
+
     setTimeout(() => {
       tile.classList.add('flip');
-      setTimeout(() => {
-        tile.className = 'tile ' + results[c];
-      }, 250);
-    }, c * 80);
-  }
-  setTimeout(callback, 5 * 80 + 300);
-}
 
+      setTimeout(() => {
+        tile.className = `tile ${results[c]} flip`;
+      }, 300);
+
+      tile.addEventListener(
+        'animationend',
+        () => tile.classList.remove('flip'),
+        { once: true }
+      );
+    }, c * 250);
+  }
+
+  setTimeout(callback, 1600);
+}
 function shakeRow(rowIdx) {
   const row = document.getElementById('row-' + rowIdx);
   row.querySelectorAll('.tile').forEach(tile => {
@@ -316,7 +304,6 @@ function shakeRow(rowIdx) {
   });
 }
 
-/* ── UI helpers ──────────────────────────── */
 
 function showMessage(msg, duration = 1800) {
   const bar = document.getElementById('message-bar');
@@ -372,10 +359,10 @@ function launchConfetti() {
   confettiPieces = [];
 
   const colors = [
-    "#a8d4a8", // green
-    "#d4b870", // gold
-    "#e8b7a0", // peach
-    "#cdb9d7"  // lavender
+    "#a8d4a8",  
+    "#d4b870", 
+    "#e8b7a0", 
+    "#cdb9d7"  
   ];
 
   for (let i = 0; i < 180; i++) {
@@ -432,7 +419,6 @@ function animateConfetti() {
   render();
 }
 
-/* ── Init ────────────────────────────────── */
 async function init() {
 
   showMessage('Loading...', 0);

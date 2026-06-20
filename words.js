@@ -1,5 +1,5 @@
 const FILM_WORDS = [
-  "ALIEN","AMOUR","ANNIE","ARIEL","AKIRA",
+  "ACTOR","ALIEN","AMOUR","ANNIE","ARIEL","AKIRA",
   "BABEL","BAMBI","BRAVE","BRICK","BULLY",
   "CAROL","CLICK","CRASH","CREED","DRIVE",
   "DUMBO","ENEMY","ELVIS","EVITA","FARGO",
@@ -18,7 +18,11 @@ const FILM_WORDS = [
 let ALL_VALID = new Set(FILM_WORDS);
 
 const WORD_INFO = {
-  // ── Films ──
+  ACTOR: {
+    category: "Performer",
+    display: "Actor",
+    description: "A professional who portrays a character within a story."
+  },
   ALIEN: {
     category: "Film",
     display: "Alien (1979)",
@@ -97,12 +101,12 @@ const WORD_INFO = {
   DUMBO: {
     category: "Film",
     display: "Dumbo (1941/2019)",
-    description: "Ridiculed because of his enormous ears, a young circus elephant is assisted by a mouse to achieve his full potential.."
+    description: "Ridiculed because of his enormous ears, a young circus elephant is assisted by a mouse to achieve his full potential."
   },
   ENEMY: {
     category: "Film",
     display: "Enemy (2013)",
-    description: "Denis Villeneuve's surreal psychological thriller. A mild-mannered college professor investigates the life of an actor who looks exactly like him.."
+    description: "Denis Villeneuve's surreal psychological thriller. A mild-mannered college professor investigates the life of an actor who looks exactly like him."
   },
   ELVIS: {
     category: "Film",
@@ -112,7 +116,7 @@ const WORD_INFO = {
   EVITA: {
     category: "Film",
     display: "Evita (1996)",
-    description: "Alan Parker's adaptation of the Andrew Lloyd Webber musical. a B-picture Argentinian actress who eventually became the wife of Argentinian president Juan Domingo Perón, and the most beloved and hated woman in Argentina.."
+    description: "Alan Parker's adaptation of the Andrew Lloyd Webber musical. a B-picture Argentinian actress who eventually became the wife of Argentinian president Juan Domingo Perón, and the most beloved and hated woman in Argentina."
   },
   FARGO: {
     category: "Film",
@@ -233,7 +237,6 @@ const WORD_INFO = {
     description: "James Cameron's ambitious underwater sci-fi. A civilian diving team encounters something extraordinary at the bottom of the ocean."
   },
 
-  // ── Directors ──
   LYNCH: {
     category: "Director",
     display: "David Lynch",
@@ -250,7 +253,6 @@ const WORD_INFO = {
     description: "American director of Get Out, Us, and Nope. Reinvented the horror genre. Get Out was one of the most profitable films of 2017."
   },
 
-  // ── Characters ──
   WOODY: {
     category: "Character",
     display: "Woody — Toy Story",
@@ -282,7 +284,6 @@ const WORD_INFO = {
     description: "The free house-elf who fiercely loves Harry Potter. Appeared in Chamber of Secrets and Deathly Hallows."
   },
 
-  // ── Film Crew / Craft ──
   AUDIO: {
     category: "Filmmaking",
     display: "Audio",
@@ -339,7 +340,6 @@ const WORD_INFO = {
     description: "A large indoor studio space where sets are built and filmed under controlled conditions."
   },
 
-  // ── Genres & Industry ──
   ANIME: {
     category: "Genre",
     display: "Anime",
@@ -366,7 +366,6 @@ const WORD_INFO = {
     description: "The studio behind Toy Story, Up, WALL-E, Inside Out, and more. Pixar pioneered computer-animated feature films and set the standard for emotionally intelligent storytelling in animation."
   },
 
-  // ── Actors ──
   DAFOE: {
     category: "Actor",
     display: "Willem Dafoe",
